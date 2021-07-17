@@ -1,10 +1,10 @@
-@import "./reset";
+@import "./reset"; // Importing partials is another reason to use scss
 @import "./variables";
-// Should be used to return values
+// Should be used to return/provide a value, but not property itself.
 @function weight($weight-name) {
   @return map-get($font-weights, $weight-name);
 }
-// Should be used to define styles
+// Should be used to define styles (properties + values)
 @mixin flexCenter($direction) {
   display: flex;
   justify-content: center;
@@ -27,17 +27,18 @@ body {
   color: $text-color;
 }
 .main {
-  @include flexCenter(row);
-  width: 80%;
+  // Nesting feature is the best reason to use scss.
+  @include flexCenter(row); // Use @include to include a @mixin
+  width: 80% - 40%; // calc(80% - 400px); rarely used.
   margin: 0 auto;
   #{&}-paragraph1 {
-    font-weight: weight(bold);
+    font-weight: weight(bold); // You can call function directly as a value.
     &:hover {
       color: pink;
     }
   }
   #{&}-paragraph2 {
-    @extend .main-paragraph1;
+    @extend .main-paragraph1; // Use paragraph1 as a base style using @extend
     &:hover {
       color: $accent-color;
     }
@@ -49,3 +50,4 @@ body {
 .light {
   @include theme($light-theme: true);
 }
+// There is also @if..@else conditionals if logic is needed.
